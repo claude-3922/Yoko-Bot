@@ -1,0 +1,7 @@
+out/
+.idea/
+target/
+config.txt
+yoko.iml
+untitled104.iml
+src/main/resources/
