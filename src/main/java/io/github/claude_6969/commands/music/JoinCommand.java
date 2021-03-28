@@ -1,4 +1,4 @@
-package io.github.claude_6969.commands;
+package io.github.claude_6969.commands.music;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
@@ -50,12 +50,12 @@ public class JoinCommand extends Command {
         final AudioManager audioManager = commandEvent.getGuild().getAudioManager();
         final VoiceChannel memberChannel = memberVoiceState.getChannel();
 
-        audioManager.openAudioConnection(memberChannel);
         var embed = builder
                 .setDescription("Connecting to `\uD83D\uDD0A %s`".formatted(memberChannel.getName()))
                 .setColor(Colors.Blue())
                 .build();
         channel.sendMessage(embed).queue(m -> {
+            audioManager.openAudioConnection(memberChannel);
             var embed_2 = builder
                     .setDescription("Connected to `\uD83D\uDD0A %s`".formatted(memberChannel.getName()))
                     .setColor(Colors.Blue())

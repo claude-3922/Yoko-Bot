@@ -48,7 +48,7 @@ public class PlayerManager {
             @Override
             public void trackLoaded(AudioTrack track) {
                 var embed = builder
-                        .setDescription("Enqueued [**%s**](%s) at position %s.".formatted(track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size()))
+                        .setDescription("Enqueued [**%s**](%s) at position %s.".formatted(track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size() + 1))
                         .setColor(Colors.Blue())
                         .build();
                 channel.sendMessage(embed).queue();
@@ -60,7 +60,7 @@ public class PlayerManager {
                 if (playlist.isSearchResult()) {
                     AudioTrack track = playlist.getTracks().get(0);
                     var embed = builder
-                            .setDescription("Enqueued [**%s**](%s) at position %s.".formatted(track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size()))
+                            .setDescription("Enqueued [**%s**](%s) at position %s.".formatted(track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size() + 1))
                             .setColor(Colors.Blue())
                             .build();
                     channel.sendMessage(embed).queue();

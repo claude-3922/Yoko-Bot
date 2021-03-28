@@ -1,4 +1,4 @@
-package io.github.claude_6969.commands;
+package io.github.claude_6969.commands.info;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;

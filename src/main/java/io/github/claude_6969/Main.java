@@ -3,12 +3,12 @@ package io.github.claude_6969;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import io.github.claude_6969.commands.*;
+import io.github.claude_6969.commands.info.PingCommand;
+import io.github.claude_6969.commands.music.*;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
@@ -21,17 +21,15 @@ import java.util.EnumSet;
 
 public class Main extends ListenerAdapter {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
-
+    public static final Logger LOGGER = LoggerFactory.getLogger("fortnite");
     public static JDA Client = null;
-
     private static final EventWaiter Waiter = new EventWaiter();
 
     public static void main(String[] args) {
         Client = BuildClient(BuildCommandClient());
     }
 
-    public static JDA BuildClient(CommandClient _commandClient) {
+    private static JDA BuildClient(CommandClient _commandClient) {
         JDA _jda = null;
         try {
             _jda = JDABuilder.createDefault(Config.Token(),
@@ -50,9 +48,10 @@ public class Main extends ListenerAdapter {
         return _jda;
     }
 
-    public static CommandClient BuildCommandClient() {
+    private static CommandClient BuildCommandClient() {
         return new CommandClientBuilder()
                 .setPrefix(Config.Prefix())
+                .useHelpBuilder(false)
                 .setEmojis("☑", "❌", "⚠")
                 .setOwnerId("776357859611901983")
                 .addCommand(new PingCommand())
@@ -60,7 +59,7 @@ public class Main extends ListenerAdapter {
                 .addCommand(new PlayCommand())
                 .addCommand(new SkipCommand())
                 .addCommand(new StopCommand())
-                .addCommand(new QueueCommand(Waiter))
+                //.addCommand(new QueueCommand(Waiter))
                 .addCommand(new LoopCommand())
                 //.addCommand(new NowPlayingCommand())
                 .build();

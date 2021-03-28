@@ -9,7 +9,7 @@ public class Config {
     private static final String[] lines = readLines();
 
     private static String[] readLines() {
-        String[] configLines = new String[2];
+        String[] configLines = new String[3];
         File file = new File("%s/config.txt".formatted(System.getProperty("user.dir")));
         try {
             Scanner scanner = new Scanner(file);
@@ -27,4 +27,5 @@ public class Config {
 
     public static String Token() { return lines[0]; }
     public static String Prefix() { return lines[1]; }
+    public static String MongoDBUri() { return lines[2]; }
 }

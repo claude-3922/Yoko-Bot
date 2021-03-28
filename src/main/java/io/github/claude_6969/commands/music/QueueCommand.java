@@ -1,4 +1,4 @@
-package io.github.claude_6969.commands;
+package io.github.claude_6969.commands.music;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
@@ -9,7 +9,6 @@ import io.github.claude_6969.Colors;
 import io.github.claude_6969.lavaplayer.GuildMusicManager;
 import io.github.claude_6969.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 
 import java.util.ArrayList;
@@ -20,14 +19,25 @@ import java.util.concurrent.TimeUnit;
 public class QueueCommand extends Command {
 
     private final Paginator.Builder builder;
-    private final EventWaiter waiter;
 
     public QueueCommand(EventWaiter _waiter) {
         this.name = "queue";
         this.aliases = new String[] { "q", "list" };
         this.guildOnly = true;
-        this.waiter = _waiter;
-        this.builder = new Paginator.Builder();
+        this.builder = new Paginator.Builder().setColor(Colors.Blue())
+                .allowTextInput(true)
+                .setColumns(1)
+                .setFinalAction(n -> {
+                    try { n.clearReactions().queue(); } catch (PermissionException ignore) {}
+                })
+                .setItemsPerPage(10)
+                .waitOnSinglePage(false)
+                .useNumberedItems(false)
+                .showPageNumbers(true)
+                .wrapPageEnds(true)
+                .setEventWaiter(_waiter)
+                .useNumberedItems(true)
+                .setTimeout(1, TimeUnit.MINUTES);
     }
 
     @Override
@@ -48,31 +58,13 @@ public class QueueCommand extends Command {
         } catch (NumberFormatException ignored) {}
         List<AudioTrack> list = new ArrayList<>(queue);
         String[] songs = new String[list.size()];
-        int j = 0;
         for (int i = 0; i < list.size(); i++) {
-            j++;
             AudioTrack song = list.get(i);
-            songs[i] = "%s. [**%s**](%s) - `%s`".formatted(j, song.getInfo().title, song.getInfo().uri, millisToMMSS(song.getInfo().length));
+            songs[i] = "[**%s**](%s) - `%s`".formatted(song.getInfo().title, song.getInfo().uri, millisToMMSS(song.getInfo().length));
         }
-        builder.setText("Queue for \"%s\"".formatted(commandEvent.getGuild().getName()))
-                .setItems(songs)
-                .setColor(Colors.Blue())
-                .allowTextInput(true)
-                .setColumns(1)
-                .setFinalAction(n -> {
-                    try {
-                        n.delete().queue();
-                    } catch (PermissionException ignore) {
-                    }
-                })
-                .setItemsPerPage(10)
-                .waitOnSinglePage(true)
-                .useNumberedItems(false)
-                .showPageNumbers(true)
-                .wrapPageEnds(true)
-                .setEventWaiter(this.waiter)
-                .setTimeout(1, TimeUnit.MINUTES);
-        builder.build().paginate(commandEvent.getChannel(), pagenum);
+        Paginator paginator = builder.setText("⠀")
+                .setItems(songs).setUsers(commandEvent.getAuthor()).build();
+        paginator.paginate(commandEvent.getChannel(), pagenum);
     }
 
     public static String millisToMMSS(long millis) {
