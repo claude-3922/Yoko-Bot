@@ -9,6 +9,7 @@ import io.github.claude_6969.Colors;
 import io.github.claude_6969.lavaplayer.GuildMusicManager;
 import io.github.claude_6969.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.exceptions.PermissionException;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class QueueCommand extends Command {
                 })
                 .setItemsPerPage(10)
                 .waitOnSinglePage(false)
-                .useNumberedItems(false)
                 .showPageNumbers(true)
                 .wrapPageEnds(true)
                 .setEventWaiter(_waiter)
@@ -45,6 +45,13 @@ public class QueueCommand extends Command {
         GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(commandEvent.getGuild());
         BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
         AudioTrack np = musicManager.player.getPlayingTrack();
+        if (np == null) {
+            commandEvent.getChannel().sendMessage(new EmbedBuilder()
+                    .setDescription("Nothing playing in this server.")
+                    .setColor(Colors.Blue())
+                    .build()).queue();
+            return;
+        }
         if (queue.isEmpty()) {
             commandEvent.getChannel().sendMessage(new EmbedBuilder()
                     .setDescription("Currently Playing : [**%s**](%s) - `%s`".formatted(np.getInfo().title, np.getInfo().uri, millisToMMSS(np.getInfo().length)))
@@ -60,7 +67,8 @@ public class QueueCommand extends Command {
         String[] songs = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             AudioTrack song = list.get(i);
-            songs[i] = "[**%s**](%s) - `%s`".formatted(song.getInfo().title, song.getInfo().uri, millisToMMSS(song.getInfo().length));
+            Long member = song.getUserData(Long.class);
+            songs[i] = "<@%s> [**%s**](%s) - `%s`".formatted(member, song.getInfo().title, song.getInfo().uri, millisToMMSS(song.getInfo().length));
         }
         Paginator paginator = builder.setText("⠀")
                 .setItems(songs).setUsers(commandEvent.getAuthor()).build();
@@ -69,8 +77,9 @@ public class QueueCommand extends Command {
 
     public static String millisToMMSS(long millis) {
          long seconds = millis / 1000;
-         long s = seconds % 60;
-         long m = (seconds / 60) % 60;
+         String s = "%s".formatted(seconds % 60);
+        String m = "%s".formatted((seconds / 60) % 60);
+         if (s.length() == 1) s = "0%s".formatted(s);
          return "%s:%s".formatted(m, s);
     }
 }

@@ -35,6 +35,7 @@ public class Main extends ListenerAdapter {
             _jda = JDABuilder.createDefault(Config.Token(),
                     GatewayIntent.GUILD_MESSAGES,
                     GatewayIntent.GUILD_VOICE_STATES,
+                    GatewayIntent.GUILD_MESSAGE_REACTIONS,
                     GatewayIntent.GUILD_MEMBERS)
                     .disableCache(EnumSet.of(CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY))
                     .enableCache(CacheFlag.VOICE_STATE)
@@ -59,9 +60,8 @@ public class Main extends ListenerAdapter {
                 .addCommand(new PlayCommand())
                 .addCommand(new SkipCommand())
                 .addCommand(new StopCommand())
-                //.addCommand(new QueueCommand(Waiter))
+                .addCommand(new QueueCommand(Waiter))
                 .addCommand(new LoopCommand())
-                //.addCommand(new NowPlayingCommand())
                 .build();
     }
 

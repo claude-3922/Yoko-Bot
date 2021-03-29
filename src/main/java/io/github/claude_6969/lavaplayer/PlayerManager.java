@@ -10,6 +10,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import io.github.claude_6969.Colors;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.HashMap;
@@ -40,15 +41,17 @@ public class PlayerManager {
         });
     }
 
-    public void loadAndPlay(TextChannel channel, String trackUrl) {
+    public void loadAndPlay(TextChannel channel, String trackUrl, Long userId) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
         musicManager.scheduler.channel = channel;
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
+                track.setUserData(userId);
+                Long member = track.getUserData(Long.class);
                 var embed = builder
-                        .setDescription("Enqueued [**%s**](%s) at position %s.".formatted(track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size() + 1))
+                        .setDescription("<@%s> Enqueued [**%s**](%s) at position %s.".formatted(member, track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size() + 1))
                         .setColor(Colors.Blue())
                         .build();
                 channel.sendMessage(embed).queue();
@@ -57,17 +60,21 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
+                playlist.getTracks().forEach(t -> {
+                    t.setUserData(userId);
+                });
+                Long member = playlist.getTracks().get(0).getUserData(Long.class);
                 if (playlist.isSearchResult()) {
                     AudioTrack track = playlist.getTracks().get(0);
                     var embed = builder
-                            .setDescription("Enqueued [**%s**](%s) at position %s.".formatted(track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size() + 1))
+                            .setDescription("<@%s> Enqueued [**%s**](%s) at position %s.".formatted(member, track.getInfo().title, track.getInfo().uri, musicManager.scheduler.queue.size() + 1))
                             .setColor(Colors.Blue())
                             .build();
                     channel.sendMessage(embed).queue();
                     musicManager.scheduler.queue(track);
                 } else {
                     var embed = builder
-                            .setDescription("Enqueued `%s tracks` from **%s**.".formatted(playlist.getTracks().size(), playlist.getName()))
+                            .setDescription("<@%s> Enqueued `%s tracks` from **%s**.".formatted(member, playlist.getTracks().size(), playlist.getName()))
                             .setColor(Colors.Blue())
                             .build();
                     channel.sendMessage(embed).queue();

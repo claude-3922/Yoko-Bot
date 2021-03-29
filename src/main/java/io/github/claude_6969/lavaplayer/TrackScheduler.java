@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import io.github.claude_6969.Colors;
 import io.github.claude_6969.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -67,9 +68,10 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackStart(AudioPlayer player, AudioTrack track) {
+        Long member = track.getUserData(Long.class);
         if (this.channel != null) {
             var embed = builder
-                    .setDescription("[**%s**](%s) is now being played.".formatted(track.getInfo().title, track.getInfo().uri))
+                    .setDescription("<@%s> [**%s**](%s) is now being played.".formatted(member, track.getInfo().title, track.getInfo().uri))
                     .setThumbnail("https://i.ytimg.com/vi/%s/hq720.jpg".formatted(track.getInfo().identifier))
                     .setColor(Colors.Blue())
                     .build();

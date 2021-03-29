@@ -5,6 +5,3 @@ config.txt
 yoko.iml
 untitled104.iml
 src/main/resources/
-src/main/java/io/github/claude_6969/commands/NowPlayingCommand.java
-src/main/java/io/github/claude_6969/commands/PrefixCommand.java
-data/
