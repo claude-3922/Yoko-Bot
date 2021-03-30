@@ -25,11 +25,19 @@ public class PlayCommand extends Command {
 
         if(commandEvent.getArgs().isEmpty()) {
             var embed = builder
-                    .setDescription("Correct usage is `!play <search query or link>`")
+                    .setDescription("You forgot to enter a song name.")
                     .setColor(Colors.Blue())
                     .build();
             channel.sendMessage(embed).queue();
             return;
+        }
+
+        if(!commandEvent.getMember().getVoiceState().inVoiceChannel()) {
+            var embed = builder
+                    .setDescription("You need to be in the channel for command to work.")
+                    .setColor(Colors.Blue())
+                    .build();
+            channel.sendMessage(embed).queue();
         }
 
         final Member self = commandEvent.getSelfMember();

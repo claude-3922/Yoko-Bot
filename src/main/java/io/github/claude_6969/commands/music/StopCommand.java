@@ -17,10 +17,10 @@ public class StopCommand extends Command {
     protected void execute(CommandEvent commandEvent) {
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(commandEvent.getGuild());
         musicManager.player.destroy();
-        musicManager.scheduler.clear();
+        musicManager.scheduler.queue.clear();
         if (commandEvent.getGuild().getAudioManager().isConnected()) {
             commandEvent.getGuild().getAudioManager().closeAudioConnection();
         }
-        commandEvent.getMessage().addReaction("👍").queue();
+        commandEvent.getMessage().addReaction("⏹").queue();
     }
 }

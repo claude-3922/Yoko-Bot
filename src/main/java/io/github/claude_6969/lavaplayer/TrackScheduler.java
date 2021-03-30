@@ -41,16 +41,11 @@ public class TrackScheduler extends AudioEventAdapter {
     public void nextTrack() {
         if (queue.size() <= 0) {
             player.destroy();
-            channel.sendMessage(new EmbedBuilder()
-                    .setColor(Colors.Blue())
-                    .setDescription("Queue ended.")
-                    .build()).queue();
+            if (channel.getGuild().getAudioManager().isConnected()) {
+                channel.getGuild().getAudioManager().closeAudioConnection();
+            }
         }
         player.startTrack(queue.poll(), false);
-    }
-
-    public void clear() {
-        queue.clear();
     }
 
     @Override
@@ -59,7 +54,7 @@ public class TrackScheduler extends AudioEventAdapter {
         playMessages.remove(channel.getGuild().getId());
         if (endReason.mayStartNext)
         {
-            if (repeating)
+            if (isRepeating())
                 player.startTrack(track.makeClone(), false);
             else
                 nextTrack();
@@ -87,5 +82,18 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void setRepeating(boolean repeat) {
         this.repeating = repeat;
+    }
+
+    public void shuffle() {
+        AudioTrack[] arr = queue.toArray(new AudioTrack[0]);
+        Collections.shuffle(Arrays.asList(arr));
+        queue.clear();
+        for (AudioTrack o : arr) {
+            try {
+                queue.put(o);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

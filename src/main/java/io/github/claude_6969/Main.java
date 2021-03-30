@@ -62,6 +62,8 @@ public class Main extends ListenerAdapter {
                 .addCommand(new StopCommand())
                 .addCommand(new QueueCommand(Waiter))
                 .addCommand(new LoopCommand())
+                .addCommand(new PauseCommand())
+                .addCommand(new ShuffleCommand())
                 .build();
     }
 

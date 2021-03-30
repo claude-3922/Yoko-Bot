@@ -17,6 +17,6 @@ public class SkipCommand extends Command {
     protected void execute(CommandEvent commandEvent) {
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(commandEvent.getGuild());
         musicManager.scheduler.nextTrack();
-        commandEvent.getMessage().addReaction("👍").queue();
+        commandEvent.getMessage().addReaction("⏩").queue();
     }
 }
