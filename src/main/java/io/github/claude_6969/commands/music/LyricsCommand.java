@@ -20,13 +20,15 @@ public class LyricsCommand extends Command {
 
     private final EventWaiter waiter;
     private final Paginator.Builder builder;
+    private final LyricsClient lyricsClient;
 
-    public LyricsCommand(EventWaiter _waiter) {
+    public LyricsCommand(EventWaiter _waiter, LyricsClient _client) {
         this.name = "lyrics";
         this.guildOnly = true;
         this.waiter = _waiter;
         this.arguments = "<songName>";
         this.help = "Get a song's lyrics.";
+        this.lyricsClient = _client;
         this.builder = new Paginator.Builder().setColor(Colors.Blue())
                 .setItemsPerPage(30)
                 .showPageNumbers(true)
@@ -56,7 +58,6 @@ public class LyricsCommand extends Command {
             }
             songName = np.getInfo().title;
         }
-        LyricsClient lyricsClient = new LyricsClient();
         Lyrics lyrics = null;
         try {
             lyrics  = lyricsClient.getLyrics(songName).get();

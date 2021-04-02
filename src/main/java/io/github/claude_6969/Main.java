@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import com.jagrosh.jlyrics.LyricsClient;
 import io.github.claude_6969.commands.info.HelpCommand;
 import io.github.claude_6969.commands.info.PingCommand;
 import io.github.claude_6969.commands.music.*;
@@ -27,6 +28,7 @@ public class Main extends ListenerAdapter {
     public static final Logger LOGGER = LoggerFactory.getLogger("fortnite");
     public static JDA Client = null;
     private static final EventWaiter Waiter = new EventWaiter();
+    private static final LyricsClient LClient = new LyricsClient();
 
     public static void main(String[] args) {
         Client = BuildClient(BuildCommandClient());
@@ -69,7 +71,7 @@ public class Main extends ListenerAdapter {
                 .addCommand(new LoopCommand())
                 .addCommand(new PauseCommand())
                 .addCommand(new ShuffleCommand())
-                .addCommand(new LyricsCommand(Waiter))
+                .addCommand(new LyricsCommand(Waiter, LClient))
                 .addCommand(new HelpCommand(Waiter))
                 .build();
     }
