@@ -13,6 +13,10 @@ public class PauseCommand extends Command {
         this.name = "pause";
         this.aliases = new String[] { "resume", "res", "pau", "pp" };
         this.guildOnly = true;
+        this.cooldown = 3;
+        this.cooldownScope = CooldownScope.USER;
+        this.arguments = "none";
+        this.help = "Pauses or resumes the player.";
     }
 
     @Override
@@ -23,6 +27,7 @@ public class PauseCommand extends Command {
                     .setDescription("Nothing playing in this server.")
                     .setColor(Colors.Blue())
                     .build()).queue();
+            return;
         }
 
         if (musicManager.player.isPaused()) {

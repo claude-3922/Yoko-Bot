@@ -13,6 +13,10 @@ public class LoopCommand extends Command {
         this.name = "loop";
         this.aliases = new String[] { "repeat" };
         this.guildOnly = true;
+        this.cooldown = 3;
+        this.cooldownScope = CooldownScope.USER;
+        this.arguments = "none";
+        this.help = "Sets the song's loop to true or false.";
     }
 
     @Override

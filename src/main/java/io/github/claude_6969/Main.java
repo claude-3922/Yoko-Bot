@@ -1,8 +1,10 @@
 package io.github.claude_6969;
 
+import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import io.github.claude_6969.commands.info.HelpCommand;
 import io.github.claude_6969.commands.info.PingCommand;
 import io.github.claude_6969.commands.music.*;
 import net.dv8tion.jda.api.JDA;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
+import java.util.List;
 
 public class Main extends ListenerAdapter {
 
@@ -39,7 +42,6 @@ public class Main extends ListenerAdapter {
                     GatewayIntent.GUILD_MEMBERS)
                     .disableCache(EnumSet.of(CacheFlag.EMOTE, CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY))
                     .enableCache(CacheFlag.VOICE_STATE)
-                    .setActivity(Activity.streaming("fortnite", "https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
                     .addEventListeners(new Main())
                     .addEventListeners(Waiter, _commandClient)
                     .build();
@@ -52,7 +54,10 @@ public class Main extends ListenerAdapter {
     private static CommandClient BuildCommandClient() {
         return new CommandClientBuilder()
                 .setPrefix(Config.Prefix())
+                .setAlternativePrefix("<@799904819144818688>")
+                .setAlternativePrefix("@Fortnite")
                 .useHelpBuilder(false)
+                .setActivity(Activity.streaming("fortnite", "https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
                 .setEmojis("☑", "❌", "⚠")
                 .setOwnerId("776357859611901983")
                 .addCommand(new PingCommand())
@@ -64,6 +69,8 @@ public class Main extends ListenerAdapter {
                 .addCommand(new LoopCommand())
                 .addCommand(new PauseCommand())
                 .addCommand(new ShuffleCommand())
+                .addCommand(new LyricsCommand(Waiter))
+                .addCommand(new HelpCommand(Waiter))
                 .build();
     }
 

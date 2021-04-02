@@ -18,6 +18,10 @@ public class JoinCommand extends Command {
         this.name = "join";
         this.aliases = new String[] { "joinvc" };
         this.guildOnly = true;
+        this.arguments = "none";
+        this.cooldown = 5;
+        this.cooldownScope = CooldownScope.USER;
+        this.help = "Joins your voice channel.";
     }
 
     @Override
@@ -40,7 +44,7 @@ public class JoinCommand extends Command {
 
         if(!memberVoiceState.inVoiceChannel()) {
             var embed = builder
-                    .setDescription("You need to be in the channel for command to work.")
+                    .setDescription("You forgot to join a voice channel.")
                     .setColor(Colors.Blue())
                     .build();
             channel.sendMessage(embed).queue();

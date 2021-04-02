@@ -25,6 +25,10 @@ public class QueueCommand extends Command {
         this.name = "queue";
         this.aliases = new String[] { "q", "list" };
         this.guildOnly = true;
+        this.cooldown = 5;
+        this.cooldownScope = CooldownScope.USER;
+        this.arguments = "(pageNumber)";
+        this.help = "Shows this server's song queue.";
         this.builder = new Paginator.Builder().setColor(Colors.Blue())
                 .allowTextInput(true)
                 .setColumns(1)

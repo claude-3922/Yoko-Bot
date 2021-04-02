@@ -17,11 +17,19 @@ public class PlayCommand extends Command {
         this.name = "play";
         this.aliases = new String[] { "p" };
         this.guildOnly = true;
+        this.cooldown = 5;
+        this.cooldownScope = CooldownScope.USER;
+        this.arguments = "<songName>";
+        this.help = "Plays a song in your voice channel.";
     }
 
     @Override
     protected void execute(CommandEvent commandEvent) {
         final TextChannel channel = commandEvent.getTextChannel();
+        final Member self = commandEvent.getSelfMember();
+        final GuildVoiceState selfVoiceState = self.getVoiceState();
+        final Member member = commandEvent.getMember();
+        final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if(commandEvent.getArgs().isEmpty()) {
             var embed = builder
@@ -32,19 +40,14 @@ public class PlayCommand extends Command {
             return;
         }
 
-        if(!commandEvent.getMember().getVoiceState().inVoiceChannel()) {
+        if(!memberVoiceState.inVoiceChannel()) {
             var embed = builder
-                    .setDescription("You need to be in the channel for command to work.")
+                    .setDescription("You forgot to join a voice channel.")
                     .setColor(Colors.Blue())
                     .build();
             channel.sendMessage(embed).queue();
+            return;
         }
-
-        final Member self = commandEvent.getSelfMember();
-        final GuildVoiceState selfVoiceState = self.getVoiceState();
-
-        final Member member = commandEvent.getMember();
-        final GuildVoiceState memberVoiceState = member.getVoiceState();
 
         if(!selfVoiceState.inVoiceChannel()) {
             new JoinCommand().execute(commandEvent);

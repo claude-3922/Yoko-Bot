@@ -13,6 +13,10 @@ public class ShuffleCommand extends Command {
         this.name = "shuffle";
         this.aliases = new String[] { "sh", "randomize", "randomizequeue", "shqueue" };
         this.guildOnly = true;
+        this.cooldown = 3;
+        this.cooldownScope = CooldownScope.USER;
+        this.arguments = "none";
+        this.help = "Shuffles this server's queue.";
     }
 
     @Override

@@ -11,6 +11,10 @@ public class SkipCommand extends Command {
         this.name = "skip";
         this.aliases = new String[] { "s", "next" };
         this.guildOnly = true;
+        this.cooldown = 3;
+        this.cooldownScope = CooldownScope.USER;
+        this.arguments = "none";
+        this.help = "Skips the current playing song.";
     }
 
     @Override

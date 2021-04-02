@@ -11,6 +11,10 @@ public class StopCommand extends Command {
         this.name = "stop";
         this.aliases = new String[] { "dc", "disconnect" };
         this.guildOnly = true;
+        this.cooldown = 3;
+        this.cooldownScope = CooldownScope.USER;
+        this.arguments = "none";
+        this.help = "Leaves the voice channel and clears the server's queue.";
     }
 
     @Override
