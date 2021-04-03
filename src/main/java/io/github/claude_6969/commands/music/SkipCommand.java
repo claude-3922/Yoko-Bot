@@ -13,7 +13,7 @@ public class SkipCommand extends Command {
         this.guildOnly = true;
         this.cooldown = 3;
         this.cooldownScope = CooldownScope.USER;
-        this.arguments = "none";
+        this.arguments = "";
         this.help = "Skips the current playing song.";
     }
 

@@ -13,7 +13,7 @@ public class StopCommand extends Command {
         this.guildOnly = true;
         this.cooldown = 3;
         this.cooldownScope = CooldownScope.USER;
-        this.arguments = "none";
+        this.arguments = "";
         this.help = "Leaves the voice channel and clears the server's queue.";
     }
 

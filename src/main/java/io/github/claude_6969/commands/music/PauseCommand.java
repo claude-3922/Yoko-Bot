@@ -15,7 +15,7 @@ public class PauseCommand extends Command {
         this.guildOnly = true;
         this.cooldown = 3;
         this.cooldownScope = CooldownScope.USER;
-        this.arguments = "none";
+        this.arguments = "";
         this.help = "Pauses or resumes the player.";
     }
 

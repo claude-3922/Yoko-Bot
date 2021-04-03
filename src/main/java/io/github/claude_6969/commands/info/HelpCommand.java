@@ -20,7 +20,7 @@ public class HelpCommand extends Command {
         this.aliases = new String[] {"commands", "allcommands", "listcommands", "ls"};
         this.guildOnly = false;
         this.help = "Shows you this message.";
-        this.arguments = "none";
+        this.arguments = "";
         this.waiter = _waiter;
         this.builder = new Paginator.Builder()
                 .setEventWaiter(waiter)

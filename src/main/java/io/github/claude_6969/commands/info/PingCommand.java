@@ -13,7 +13,7 @@ public class PingCommand extends Command {
         this.name = "ping";
         this.aliases = new String[] { "latency" };
         this.guildOnly = false;
-        this.arguments = "none";
+        this.arguments = "";
         this.help = "Check the bot's latency.";
     }
 

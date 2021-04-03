@@ -18,7 +18,7 @@ public class JoinCommand extends Command {
         this.name = "join";
         this.aliases = new String[] { "joinvc" };
         this.guildOnly = true;
-        this.arguments = "none";
+        this.arguments = "";
         this.cooldown = 5;
         this.cooldownScope = CooldownScope.USER;
         this.help = "Joins your voice channel.";

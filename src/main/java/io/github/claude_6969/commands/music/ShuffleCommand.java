@@ -15,7 +15,7 @@ public class ShuffleCommand extends Command {
         this.guildOnly = true;
         this.cooldown = 3;
         this.cooldownScope = CooldownScope.USER;
-        this.arguments = "none";
+        this.arguments = "";
         this.help = "Shuffles this server's queue.";
     }
 
